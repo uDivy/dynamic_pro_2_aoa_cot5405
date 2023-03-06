@@ -5,19 +5,24 @@ def maximal_square(m, n, h, matrix):
     for i in range(m):
         for j in range(n):
             if matrix[i][j] >= h:
-                for size in range(1, min(m-i, n-j)+1):
-                    is_square = True
-                    for k in range(i, i+size):
-                        for l in range(j, j+size):
-                            if matrix[k][l] < h:
-                                is_square = False
-                                break
-                        if not is_square:
+                size = 1
+                is_square = True
+                while i + size < m and j + size < n and is_square:
+                    for k in range(j + size, j + size + 1):
+                        if matrix[i][k] < h:
+                            is_square = False
+                            break
+                    for k in range(j , j + size + 1):
+                        if matrix[i + size][k] < h:
+                            is_square = False
                             break
                     if is_square:
-                        if size > max_size:
-                            boundary = [(i, j), (i+size-1, j+size-1)]
-                            max_size = size
+                        size += 1
+                if max_size < size:
+                    print(max_size, size)
+                    boundary = [(i, j),(i+size-1, j + size-1)]
+                    max_size = size
+
     
     return boundary
 
