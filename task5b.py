@@ -1,5 +1,4 @@
 def largest_square_area(p, h):
-    m, n = len(p), len(p[0])
     # Step 1: Initialize DP matrix
     DP = [[0 for j in range(n)] for i in range(m)]
     
@@ -10,13 +9,10 @@ def largest_square_area(p, h):
             if p[i][j] < h:
                 if i<m-1 and j<n-1:
                     if(p[i][j+1]>=h and p[i+1][j]>=h and p[i+1][j+1]>=h):
-                        print("top left", i,j)
                         DP[i][j] = 1
                     elif(p[i][j-1]>=h and p[i+1][j]>=h and p[i+1][j-1]>=h):
-                        print("top right",i,j)
                         DP[i][j] = 1
                     elif(p[i-1][j]>=h and p[i][j+1]>=h and p[i-1][j+1]>=h):
-                        print("bottom left", i, j)
                         DP[i][j] = 1
                     elif(p[i-1][j-1]>=h and p[i][j-1]>=h and p[i-1][j]>=h):
                         DP[i][j] = 1 + min(DP[i-1][j-1], DP[i-1][j], DP[i][j-1])
