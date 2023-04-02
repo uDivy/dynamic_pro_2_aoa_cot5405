@@ -1,37 +1,60 @@
-def find_max_square(matrix, k, h):
-    rows, cols = len(matrix), len(matrix[0])
-    dp = [[[-1 for _ in range(k+1)] for _ in range(cols)] for _ in range(rows)]
-    
-    def find_max_square_helper(i, j, k, h, cnt):
-        if i >= rows or j >= cols or cnt > k:
-            return 0
-        if dp[i][j][k] != -1:
-            return dp[i][j][k]
-        
-        if matrix[i][j] >= h:
-            size = 1 + min(find_max_square_helper(i+1, j, k, h, cnt), 
-                        find_max_square_helper(i, j+1, k, h, cnt),
-                        find_max_square_helper(i+1, j+1, k, h, cnt))
-        else:
-            cnt += 1
-            size = 1 + min(find_max_square_helper(i+1, j, k, h, cnt), 
-                        find_max_square_helper(i, j+1, k, h, cnt),
-                        find_max_square_helper(i+1, j+1, k, h, cnt))
+class ufa:
+  def calculate(matrix, k, h):
 
-        dp[i][j][k] = size
-        return size
-    
-    max_size, start, end = 0, None, None
-    for i in range(rows):
-        for j in range(cols):
-            for k_val in range(k+1):
-                size = find_max_square_helper(i, j, k_val, h, 0)
-                if size > max_size:
-                    max_size = size
-                    start, end = (i,j), (i+size-1, j+size-1)
-                    print(size, start, end, k_val)
-                    
-    return start, end
+    r_x,r_y,r_s = None,None,0
+
+    hash_map = {}
+
+    def find_count(i,j,d):
+
+      if(i-d<0 or j-d<0):
+        return float("inf")
+
+      count = 0
+      if(matrix[i][j-d]<h):
+        count += 1
+      if(matrix[i-d][j]<h):
+        count += 1
+      
+      return count
+
+
+    def find(i,j,k):
+
+      if(hash_map.get((i,j,k))!=None):
+          return hash_map.get((i,j,k))
+
+      nonlocal r_x,r_y,r_s
+      start = k
+      ts = 0
+
+      if(i>=0 and j>=0 and (matrix[i][j] >=h or (matrix[i][j]<h and k>0))):
+
+        if(matrix[i][j]<h):
+            k -= 1
+
+        d = 1
+        ts = 1
+
+        k -= find_count(i,j,d)
+        while(k>=0):
+          temp = find(i-1,j-1,k)
+          if(temp >= d):
+            ts += 1
+          d += 1
+          k -= find_count(i,j,d)
+
+      if(ts>r_s):
+        r_x,r_y,r_s = i,j,ts
+
+      hash_map[(i,j,start)] = ts
+      return ts
+
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
+            find(i,j,k)
+
+    print(r_x+2-r_s, r_y+2-r_s, r_x+1, r_y+1)
 
 # Read the first line of input and split it into three variables
 m, n, h, k = map(int, input().split())
@@ -45,5 +68,4 @@ for _ in range(m):
     matrix.append(row)
 
 # Call the maximal_square function
-boundary = find_max_square(matrix, k, h)
-print(boundary)
+ufa.calculate(matrix, k , h)
