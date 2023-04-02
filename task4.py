@@ -33,6 +33,8 @@ def largest_square_area(p, h):
                     bottom = i+max_size-1
                     right = j+max_size-1
                 return [i,j,bottom,right]
+            else:
+                return [0,0,1,1]
 
 # Read the first line of input and split it into three variables
 m, n, h = map(int, input().split())
