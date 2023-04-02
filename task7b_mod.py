@@ -16,10 +16,17 @@ class ufa:
     # Create a 3D array to store the intermediate results
     dp = [[[0] * (k+1) for _ in range(len(matrix[0]))] for _ in range(len(matrix))]
 
+    start = k
     for i in range(len(matrix)):
        for j in range(len(matrix[0])):
           if matrix[i][j] >= h:
              dp[i][j][0] = 1
+          else:
+             if k>=0:
+              dp[i][j][k] = 1
+              k -= 1
+              
+    k = start
              
     for i in range(1, len(matrix)):
         for j in range(1, len(matrix[0])):
