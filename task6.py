@@ -1,22 +1,19 @@
-def findMaximalSquare(grid, k, h):
-    m, n = len(grid), len(grid[0])
-    max_size, boundary = 0, []
-
-    # check all possible squares with top-left corner (i, j)
+def maximal_square(m, n, h, matrix, k):
+    max_size = 0
+    boundary = []
+    
     for i in range(m):
         for j in range(n):
-            # check squares with size s
-            for s in range(1, min(m-i+1, n-j+1)):
-                # check if the square is valid (at most k enclosed plots have a minimum tree requirement less than h)
-                num_enclosed_plots = countEnclosedPlotsAndMinTreeRequirement(grid, i, j, s)               
+            for size in range(1, min(m-i, n-j)+1):
+                for f in range(i, i+size):
+                    for l in range(j, j+size):
+                        num_enclosed_plots = countEnclosedPlotsAndMinTreeRequirement(matrix, i, j, size)
                 if num_enclosed_plots <= k:
-                    # update maximum square found so far
-                    if s > max_size:
-                        max_size = s
-                        boundary = [i, j, i+s-1, j+s-1]
-
+                    if size > max_size:
+                        boundary = [i, j, i+size-1, j+size-1]
+                        max_size = size
+    
     return boundary
-
 
 def countEnclosedPlotsAndMinTreeRequirement(grid, i, j, s):
     # num_enclosed_plots, min_tree_requirement = 0, float('inf')
@@ -40,6 +37,6 @@ for _ in range(m):
     matrix.append(row)
 
 # Call the maximal_square function
-boundary = findMaximalSquare(matrix, k, h)
+boundary = maximal_square(m, n, h, matrix, k)
 for val in boundary:
     print(val+1, end= ' ')
