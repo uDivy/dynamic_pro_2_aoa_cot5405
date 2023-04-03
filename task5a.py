@@ -1,3 +1,4 @@
+import time, sys
 def largest_square_area(p, h):
     DP = [[0 for j in range(n)] for i in range(m)]
     max_size = 0
@@ -36,17 +37,43 @@ def largest_square_area(p, h):
                 col_index = j - max_size + 1
                 return (row_index, col_index, i, j)
 
-# Read the first line of input and split it into three variables
-m, n, h = map(int, input().split())
+# # Read the first line of input and split it into three variables
+# m, n, h = map(int, input().split())
 
-# Initialize an empty list to store the matrix
-p = []
+# # Initialize an empty list to store the matrix
+# p = []
 
-# Iterate over the remaining lines of input and append each row to the matrix
-for _ in range(m):
-    row = list(map(int, input().split()))
-    p.append(row)
+# # Iterate over the remaining lines of input and append each row to the matrix
+# for _ in range(m):
+#     row = list(map(int, input().split()))
+#     p.append(row)
 
+# Comparative Study ##########################################
+# open the file for reading
+with open(str(sys.argv[1]), 'r') as f:
+    
+    # read the first line and extract the dimensions
+    dimensions = f.readline().split()
+    m = int(dimensions[0])
+    n = int(dimensions[1])
+    h = int(dimensions[2])
+    
+   # initialize the matrix variable
+    p = [[0]*n for i in range(m)]
+    
+    # read the remaining lines and populate the matrix variable
+    for i in range(m):
+        row = f.readline().split()
+        for j in range(n):
+            p[i][j] = int(row[j])
+
+############################################################
+
+start_time = time.time()  # record the start time
 [a,b,c,d] = largest_square_area(p, h)
+end_time = time.time()  # record the end time
 
 print(a+1, b+1, c+1, d+1)
+runtime = end_time - start_time  # calculate the runtime
+print()
+print(f"Runtime: {runtime:.4f} seconds")

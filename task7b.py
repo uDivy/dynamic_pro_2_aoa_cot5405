@@ -1,3 +1,4 @@
+import time, sys
 class ufa:
   def calculate(matrix, k, h):
     r_x,r_y,r_s = None,None,0
@@ -56,16 +57,44 @@ class ufa:
 
     print(r_x+2-r_s, r_y+2-r_s, r_x+1, r_y+1)
   
-# Read the first line of input and split it into three variables
-m, n, h, k = map(int, input().split())
+# # Read the first line of input and split it into three variables
+# m, n, h, k = map(int, input().split())
 
-# Initialize an empty list to store the matrix
-matrix = []
+# # Initialize an empty list to store the matrix
+# matrix = []
 
-# Iterate over the remaining lines of input and append each row to the matrix
-for _ in range(m):
-    row = list(map(int, input().split()))
-    matrix.append(row)
+# # Iterate over the remaining lines of input and append each row to the matrix
+# for _ in range(m):
+#     row = list(map(int, input().split()))
+#     matrix.append(row)
 
+# Comparative Study ##########################################
+# open the file for reading
+with open(str(sys.argv[1]), 'r') as f:
+    
+    # read the first line and extract the dimensions
+    dimensions = f.readline().split()
+    m = int(dimensions[0])
+    n = int(dimensions[1])
+    h = int(dimensions[2])
+    k = int(dimensions[3])
+    
+   # initialize the matrix variable
+    matrix = [[0]*n for i in range(m)]
+    
+    # read the remaining lines and populate the matrix variable
+    for i in range(m):
+        row = f.readline().split()
+        for j in range(n):
+            matrix[i][j] = int(row[j])
+
+############################################################
+
+start_time = time.time()  # record the start time
 # Call the maximal_square function
 ufa.calculate(matrix, k , h)
+end_time = time.time()  # record the end time
+
+runtime = end_time - start_time  # calculate the runtime
+print()
+print(f"Runtime: {runtime:.4f} seconds")
