@@ -25,7 +25,7 @@ class ufa:
              if k>=0:
               dp[i][j][k] = 1
               k -= 1
-              
+
     k = start
              
     for i in range(1, len(matrix)):
@@ -51,7 +51,6 @@ class ufa:
 
               dp[i][j][l] = ts
               if(ts>r_s):
-                  print(i, j, dp[i][j])
                   r_x,r_y,r_s = i,j,ts
               
 

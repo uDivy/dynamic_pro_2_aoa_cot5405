@@ -15,7 +15,7 @@ def maximal_square(m, n, h, matrix):
                 prev = temp
                 if dp[j] > max_size:
                     max_size = dp[j]
-                    boundary = [(i-max_size+1, j-max_size+1), (i, j)]
+                    boundary = [i-max_size+1, j-max_size+1, i, j]
             else:
                 dp[j] = 0
                 
@@ -34,4 +34,5 @@ for _ in range(m):
 
 # Call the maximal_square function
 boundary = maximal_square(m, n, h, matrix)
-print(boundary[0], boundary[1])
+for val in boundary:
+    print(val+1,end=' ')
